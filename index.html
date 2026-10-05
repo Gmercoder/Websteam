@@ -9,12 +9,108 @@
   <body>
     <header class="topbar">
       <div class="brand">Websteam</div>
-      <div class="search">Library</div>
+      <div class="spacer"></div>
+      <button class="add-btn" id="addGameBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        Add Game
+      </button>
     </header>
 
-      <section class="library" id="library"></section>
-    </main>
+    <section class="library" id="library">
+      <div class="loading" id="loadingState">Loading your library...</div>
+    </section>
 
-    <script src="script.js"></script>
+    <!-- Upload modal -->
+    <div class="modal-overlay" id="uploadModal" style="display:none;">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>Add a Game</h2>
+          <button class="modal-close" id="closeModalBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="gameTitle">Game Title</label>
+            <input type="text" id="gameTitle" placeholder="My Awesome Game" />
+          </div>
+          <div class="form-group">
+            <label for="gameGenre">Genre</label>
+            <input type="text" id="gameGenre" placeholder="Action, Adventure" />
+          </div>
+
+          <div class="source-toggle">
+            <button class="source-btn active" data-source="upload" id="sourceUploadBtn">Upload File</button>
+            <button class="source-btn" data-source="external" id="sourceExternalBtn">External Link</button>
+          </div>
+
+          <!-- Upload source -->
+          <div class="source-panel" id="uploadPanel">
+            <div class="drop-zone" id="dropZone">
+              <div class="drop-zone-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="17 8 12 3 7 8"/>
+                  <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+              </div>
+              <p>Drop your game file here or click to browse</p>
+              <span class="hint">Supports .html files or .zip archives</span>
+              <input type="file" id="fileInput" accept=".html,.zip" style="display:none;" />
+            </div>
+            <div class="file-info" id="fileInfo" style="display:none;"></div>
+          </div>
+
+          <!-- External source -->
+          <div class="source-panel" id="externalPanel" style="display:none;">
+            <div class="form-group">
+              <label for="externalUrl">Play URL</label>
+              <input type="url" id="externalUrl" placeholder="https://cdn.example.com/my-game/index.html" />
+            </div>
+            <p class="hint">Paste the full URL to your game's HTML file. It will open in a new tab.</p>
+          </div>
+
+          <div class="form-group">
+            <label>Thumbnail Image (optional)</label>
+            <div class="thumb-upload" id="thumbUpload">
+              <div class="thumb-preview" id="thumbPreview">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+              <button type="button" class="text-btn" id="thumbBtn">Choose thumbnail</button>
+              <input type="file" id="thumbInput" accept="image/*" style="display:none;" />
+            </div>
+          </div>
+
+          <div id="uploadError" class="error-msg" style="display:none;"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" id="cancelBtn">Cancel</button>
+          <button class="btn-primary" id="submitBtn">Add to Library</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game player modal -->
+    <div class="player-overlay" id="playerModal" style="display:none;">
+      <div class="player-header">
+        <span id="playerTitle">Game</span>
+        <button class="modal-close" id="closePlayerBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <iframe id="playerFrame" src="" allow="autoplay; fullscreen; gamepad" allowfullscreen></iframe>
+    </div>
+
+    <script type="module" src="src/main.js"></script>
   </body>
 </html>
